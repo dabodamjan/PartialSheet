@@ -191,14 +191,20 @@ extension PartialSheet {
                 VStack(spacing: 0) {
                     switch iPhoneStyle.handleBarStyle {
                     case .solid(let handleBarColor):
-                        VStack {
+                        HStack {
                             Spacer()
-                            RoundedRectangle(cornerRadius: CGFloat(5.0) / 2.0)
-                                .frame(width: 40, height: 5)
-                                .foregroundColor(handleBarColor)
+                            VStack {
+                                Spacer()
+                                RoundedRectangle(cornerRadius: CGFloat(5.0) / 2.0)
+                                    .frame(width: 40, height: 5)
+                                    .foregroundColor(handleBarColor)
+                                Spacer()
+                            }
                             Spacer()
                         }
                         .frame(height: handleSectionHeight)
+                        .contentShape(Rectangle())
+                        .gesture(drag)
                     case .none: EmptyView()
                     }
 
@@ -249,7 +255,6 @@ extension PartialSheet {
                 .cornerRadius(iPhoneStyle.cornerRadius)
                 .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
                 .offset(y: self.sheetPosition)
-                .gesture(drag)
                 .onChange(of: isDetectingDrag) { newValue in
                     if newValue == false {
                         withAnimation(manager.slideAnimation.defaultSlideAnimation) {
